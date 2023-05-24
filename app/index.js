@@ -5,19 +5,23 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const app = express();
+const cors = require('cors');
 
 // cargar  imagen
 const upload = multer({ dest: 'uploads/' });
-
+app.use(express.json());
+app.use(cors());
 // Ruta para procesar la imagen y hacer la predicción
 app.post('/predict', upload.single('image'), async (req, res) => {
   try {
     // Cargar el modelo de Keras
-    const modelPath = path.resolve(
-      __dirname,
-      '../model_json/model_github/model.json'
-    );
+    // const modelPath = path.resolve(
+    //   __dirname,
+    //   '../model_json/model_github/model.json'
+    // );
+    const modelPath = path.resolve(__dirname, '../model_json/model_second.json');
     const model = await tf.loadGraphModel(`file://${modelPath}`);
+    console.log(req.files);
     // Cargar la imagen y preprocesarla
     const imageBuffer = path.resolve(__dirname, `../${req.file.path}`);
     const tensor = await sharp(imageBuffer)
@@ -44,8 +48,8 @@ app.post('/predict', upload.single('image'), async (req, res) => {
       7: 'H',
       8: 'I',
       9: 'J',
-      10: 'K',
-      11: 'L',
+      10: 'L',
+      11: 'K',
       12: 'M',
       13: 'N',
       14: 'O',

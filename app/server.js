@@ -13,7 +13,10 @@ const upload = multer({ dest: 'uploads/' })
 app.post('/predict', upload.single('image') ,async (req, res) => {
   try {
     // Cargar el modelo de Keras
-    const modelPath = path.resolve(__dirname, '../model_json/model.json');
+    const modelPath = path.resolve(
+      __dirname,
+      '../model_json/model_first.json'
+    );
     const model = await tf.loadGraphModel(`file://${modelPath}`);
     // Cargar la imagen y preprocesarla
     const imageBuffer = path.resolve(__dirname, `../${req.file.path}`);
