@@ -10,6 +10,7 @@ const cors = require('cors');
 // cargar  imagen
 const upload = multer({ dest: 'uploads/' });
 app.use(express.json());
+// app.use('/api/v1', router)
 app.use(cors());
 // Ruta para procesar la imagen y hacer la predicción
 app.post('/predict', upload.single('image'), async (req, res) => {
@@ -19,7 +20,7 @@ app.post('/predict', upload.single('image'), async (req, res) => {
     //   __dirname,
     //   '../model_json/model_github/model.json'
     // );
-    const modelPath = path.resolve(__dirname, '../model_json/model_second.json');
+    const modelPath = path.resolve(__dirname, '../model_json/vgg19/model.json');
     const model = await tf.loadGraphModel(`file://${modelPath}`);
     console.log(req.files);
     // Cargar la imagen y preprocesarla
